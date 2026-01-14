@@ -2,6 +2,87 @@
 
 React i18next is the most popular internationalization framework for React applications. This guide provides specific strategies for translating React apps effectively.
 
+## ⚠️ CRITICAL RULES
+
+### AUTO-DEBUGGING CAPABILITY DETECTION (CRITICAL)
+
+**Before any installation or code modification, AI checks:**
+
+**Detection Checklist:**
+```bash
+# 1. Check for test framework
+grep -E "(jest|vitest|cypress|playwright)" package.json
+
+# 2. Check for dev/test scripts
+grep -E '"(dev|start|test)"' package.json
+
+# 3. Check for build configuration
+ls -la vite.config.* webpack.config.* tsconfig.json 2>/dev/null
+
+# 4. Verify node_modules exists
+[ -d "node_modules" ] && echo "OK" || echo "MISSING"
+```
+
+**Decision Matrix:**
+```
+Can Auto-Debug?
+├── ✅ Has test framework + Has dev scripts + Has build config + Has node_modules
+│     → FULLY AUTOMATED MODE
+│     → Install react-i18next ✅
+│     → Modify all components ✅
+│     → Auto-verify with tests ✅
+│
+└── ⚠️ Missing any of the above
+      → FILES-ONLY MODE
+      → Create translation files ✅
+      → Generate migration guide ✅
+      → NO installation ❌
+      → NO component modification ❌
+```
+
+### FULLY AUTOMATED MODE (When debugging possible)
+
+**Detection Result:** React project can be auto-tested/debugged
+
+**AI performs ALL tasks automatically:**
+- ✅ Install i18next, react-i18next, i18next-browser-languagedetector
+- ✅ Extract all hardcoded strings from .jsx/.tsx files
+- ✅ Generate translation files (JSON) with namespace structure
+- ✅ Modify ALL React components to use useTranslation hook
+- ✅ Wrap app with I18nextProvider
+- ✅ Add language switcher component
+- ✅ Auto-verify integration
+
+**No manual intervention required.**
+
+### FILES-ONLY MODE (When debugging NOT possible)
+
+**Detection Result:** React project cannot be auto-tested/debugged
+
+**AI performs ONLY these tasks:**
+- ✅ Create translation files (public/locales/)
+- ✅ Create i18n config template
+- ✅ Generate comprehensive React migration guide
+- ✅ Provide before/after component examples
+
+**AI does NOT perform:**
+- ❌ NO npm installation
+- ❌ NO component file modifications
+- ❌ NO app configuration changes
+
+**User must manually:**
+1. npm install i18next react-i18next i18next-browser-languagedetector
+2. Copy i18n config to src/i18n.js
+3. Import in app: import './i18n';
+4. Update components using migration guide
+
+### Complete Coverage Requirement
+
+**Every user-facing string must be extracted:**
+- Scan: .jsx, .tsx files
+- Extract: JSX text content, button/label text, toasts, alerts, validation messages
+- Document: Count strings found and categorize by feature/namespace
+
 ## Identifying React i18next Projects
 
 **Package.json indicators:**
@@ -20,6 +101,67 @@ public/locales/{language}/{namespace}.json
 src/i18n/locales/{language}/{namespace}.json
 src/locales/{language}/{namespace}.json
 ```
+
+## Comprehensive String Extraction for React
+
+### Step 1: Scan All React Files
+
+```bash
+# Find all React component files
+find src -type f \( -name "*.jsx" -o -name "*.tsx" \)
+
+# Count total files
+echo "Total React files: $(find src -type f \( -name "*.jsx" -o -name "*.tsx" \) | wc -l)"
+```
+
+### Step 2: Extract JSX Strings
+
+```bash
+# Extract JSX text content (between tags)
+grep -rh ">[^<{]*<" src/ --include="*.jsx" --include="*.tsx" | grep -v "^[[:space:]]*$" | sort -u | head -100
+
+# Extract button text
+grep -rh "<button[^>]*>[^<]*</button>" src/ --include="*.jsx" --include="*.tsx" | sed 's/<[^>]*>//g' | sort -u
+
+# Extract label text
+grep -rh "<label[^>]*>[^<]*</label>" src/ --include="*.jsx" --include="*.tsx" | sed 's/<[^>]*>//g' | sort -u
+
+# Extract input placeholders
+grep -rh 'placeholder="[^"]*"' src/ --include="*.jsx" --include="*.tsx" | sort -u
+
+# Find toast/notification messages
+grep -rh "message=['\"]" src/ --include="*.jsx" --include="*.tsx"
+grep -rh "title=['\"]" src/ --include="*.jsx" --include="*.tsx" | grep -E "(toast|notification|alert)"
+
+# Find strings in conditional rendering
+grep -rh "{.*['\"]\w\+\(\s\+\w\+\)*['\"].*}" src/ --include="*.jsx" --include="*.tsx" | grep -E "(button|label|title|text)"
+```
+
+### Step 3: Organize by Namespace
+
+Group extracted strings into namespaces:
+
+1. **common.json** - Shared UI (buttons, labels, status)
+2. **auth.json** - Authentication (login, signup, password)
+3. **dashboard.json** - Dashboard features
+4. **settings.json** - Settings pages
+5. **validation.json** - Form validation messages
+6. **notifications.json** - Toasts, alerts, confirmations
+
+### Step 4: Create Namespace Files
+
+Create translation files for each namespace.
+
+### Step 5: Automatic Component Integration
+
+**AI automatically modifies ALL React components:**
+- Import `useTranslation` hook in components with hardcoded strings
+- Replace hardcoded text with `t('namespace:key')` calls
+- Preserve all interpolation variables and component props
+- Handle toast/alert messages with translation functions
+- Ensure proper namespace usage
+
+**No migration guide needed** - AI performs all component modifications directly.
 
 ## File Structure
 

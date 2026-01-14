@@ -2,6 +2,86 @@
 
 This guide covers translation strategies for general JSON and YAML i18n files that don't use framework-specific libraries like React i18next or Vue I18n.
 
+## ⚠️ CRITICAL RULES
+
+### AUTO-DEBUGGING CAPABILITY DETECTION (CRITICAL)
+
+**Before any installation or code modification, AI checks:**
+
+**Detection Checklist:**
+```bash
+# 1. Check for test framework
+grep -E "(jest|vitest|mocha|jasmine)" package.json
+
+# 2. Check for test/run scripts
+grep -E '"(test|start|dev)"' package.json
+
+# 3. Check for build configuration
+ls -la package.json tsconfig.json 2>/dev/null
+
+# 4. Verify node_modules exists
+[ -d "node_modules" ] && echo "OK" || echo "MISSING"
+```
+
+**Decision Matrix:**
+```
+Can Auto-Debug?
+├── ✅ Has test framework + Has test scripts + Has build config + Has node_modules
+│     → FULLY AUTOMATED MODE
+│     → Install i18n packages ✅
+│     → Modify source files ✅
+│     → Auto-verify with tests ✅
+│
+└── ⚠️ Missing any of the above
+      → FILES-ONLY MODE
+      → Create translation files ✅
+      → Generate migration guide ✅
+      → NO installation ❌
+      → NO code modification ❌
+```
+
+### FULLY AUTOMATED MODE (When debugging possible)
+
+**Detection Result:** Project can be auto-tested/debugged
+
+**AI performs ALL tasks automatically:**
+- ✅ Install i18n dependencies (i18next, etc.)
+- ✅ Extract all hardcoded strings
+- ✅ Generate translation files
+- ✅ Modify ALL component files
+- ✅ Add configuration files
+- ✅ Auto-verify with tests
+
+**No manual intervention required.**
+
+### FILES-ONLY MODE (When debugging NOT possible)
+
+**Detection Result:** Project cannot be auto-tested/debugged
+
+**AI performs ONLY these tasks:**
+- ✅ Create translation files
+- ✅ Create config templates
+- ✅ Generate comprehensive migration guide
+- ✅ Provide before/after examples
+
+**AI does NOT perform:**
+- ❌ NO dependency installation
+- ❌ NO source code modification
+- ❌ NO config file changes
+
+**User must manually:**
+1. Install dependencies
+2. Follow migration guide
+3. Update components manually
+4. Test manually
+
+### Complete Coverage Requirement
+
+**Every user-facing string must be extracted:**
+- Scan: .js, .jsx, .ts, .tsx, .vue, .html, .css, .scss files
+- Extract: UI text, messages, validation, placeholders, aria-labels
+- Document: Count strings found and categorize by feature
+
 ## When to Use This Strategy
 
 Use this approach for:
@@ -11,6 +91,68 @@ Use this approach for:
 - Desktop applications (Electron)
 - Custom i18n implementations
 - Generic JSON/YAML translation files
+
+## Comprehensive String Extraction Workflow
+
+### Step 1: Scan All Source Files
+
+```bash
+# Find all JavaScript/TypeScript files
+find src -type f \( -name "*.js" -o -name "*.jsx" -o -name "*.ts" -o -name "*.tsx" \)
+
+# Find all Vue files
+find src -type f -name "*.vue"
+
+# Find all template files
+find . -type f \( -name "*.html" -o -name "*.ejs" -o -name "*.hbs" \)
+
+# Count total files to scan
+echo "Total source files: $(find src -type f \( -name "*.js" -o -name "*.jsx" -o -name "*.ts" -o -name "*.tsx" -o -name "*.vue" \) | wc -l)"
+```
+
+### Step 2: Extract User-Facing Strings
+
+**React/Vue Components:**
+```bash
+# Extract JSX/Vue template strings
+grep -rh ">[^<{]*<" src/ | grep -v "^[[:space:]]*$" | sort -u | head -100
+
+# Find button/label text
+grep -rh "button.*>[^<]*<" src/
+grep -rh "label.*>[^<]*<" src/
+grep -rh "placeholder=["] src/
+```
+
+**JavaScript/TypeScript Strings:**
+```bash
+# Find string literals related to UI
+grep -rh "['\"]\w\+\(\s\+\w\+\)*['\"]" src/ --include="*.js" --include="*.ts" | \
+  grep -E "(button|label|title|message|error|success|warning|text|placeholder|loading)" | \
+  sort -u | head -100
+```
+
+### Step 3: Categorize Strings
+
+Group extracted strings into categories:
+
+1. **common** - Universal UI (buttons, status, navigation)
+2. **[feature]** - Feature-specific (auth, dashboard, settings, etc.)
+3. **validation** - Form validation messages
+4. **errors** - Error messages
+
+### Step 4: Create Translation Files
+
+Based on categorized strings, create JSON/YAML files for each language.
+
+### Step 5: Automatic Code Integration
+
+**AI automatically modifies ALL component files:**
+- Replace hardcoded strings with translation function calls
+- Import necessary i18n libraries
+- Update all template literals and JSX content
+- Ensure all components use translation keys
+
+**No migration guide needed** - AI performs all code modifications directly.
 
 ## File Format Detection
 
@@ -294,10 +436,19 @@ touch zh-Hans/messages.json
 
 ### Phase 3: Systematic Translation
 
+**CRITICAL: Translation Fidelity Rules**
+
+Before translating, ensure:
+1. ✅ **Faithful to source** - Translate EXACTLY what source says
+2. ✅ **No additions** - Don't add words or explanations
+3. ✅ **No deletions** - Don't omit content from source
+4. ✅ **No changes** - Preserve exact meaning and tone
+5. ✅ **Structure preservation** - Keep placeholders, formatting, HTML
+
 For each translation key:
 1. **Read the key-value pair**
 2. **Identify placeholders** - Note all interpolation patterns
-3. **Translate the text** - Preserve placeholders exactly
+3. **Translate the text** - Preserve placeholders exactly, translate faithfully
 4. **Maintain structure** - Keep nesting, arrays, etc.
 5. **Validate syntax** - Check JSON/YAML is valid
 

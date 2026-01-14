@@ -2,6 +2,87 @@
 
 Vue I18n is the official internationalization plugin for Vue.js. This guide provides specific strategies for translating Vue applications effectively.
 
+## ⚠️ CRITICAL RULES
+
+### AUTO-DEBUGGING CAPABILITY DETECTION (CRITICAL)
+
+**Before any installation or code modification, AI checks:**
+
+**Detection Checklist:**
+```bash
+# 1. Check for test framework
+grep -E "(jest|vitest|cypress|playwright)" package.json
+
+# 2. Check for dev/test scripts
+grep -E '"(dev|start|test)"' package.json
+
+# 3. Check for build configuration
+ls -la vite.config.* vue.config.js 2>/dev/null
+
+# 4. Verify node_modules exists
+[ -d "node_modules" ] && echo "OK" || echo "MISSING"
+```
+
+**Decision Matrix:**
+```
+Can Auto-Debug?
+├── ✅ Has test framework + Has dev scripts + Has build config + Has node_modules
+│     → FULLY AUTOMATED MODE
+│     → Install vue-i18n ✅
+│     → Modify all .vue files ✅
+│     → Auto-verify with tests ✅
+│
+└── ⚠️ Missing any of the above
+      → FILES-ONLY MODE
+      → Create translation files ✅
+      → Generate migration guide ✅
+      → NO installation ❌
+      → NO component modification ❌
+```
+
+### FULLY AUTOMATED MODE (When debugging possible)
+
+**Detection Result:** Vue project can be auto-tested/debugged
+
+**AI performs ALL tasks automatically:**
+- ✅ Install vue-i18n
+- ✅ Extract all hardcoded strings from .vue files
+- ✅ Generate translation files (JSON/YAML) with locale structure
+- ✅ Modify ALL Vue components to use $t() or useI18n()
+- ✅ Register i18n plugin in app
+- ✅ Add language switcher component
+- ✅ Auto-verify integration
+
+**No manual intervention required.**
+
+### FILES-ONLY MODE (When debugging NOT possible)
+
+**Detection Result:** Vue project cannot be auto-tested/debugged
+
+**AI performs ONLY these tasks:**
+- ✅ Create translation files (src/locales/)
+- ✅ Create i18n config template
+- ✅ Generate comprehensive Vue migration guide
+- ✅ Provide before/after component examples
+
+**AI does NOT perform:**
+- ❌ NO npm installation
+- ❌ NO .vue file modifications
+- ❌ NO app configuration changes
+
+**User must manually:**
+1. npm install vue-i18n
+2. Copy i18n config to src/i18n/index.js
+3. Register plugin in app: app.use(i18n)
+4. Update components using migration guide
+
+### Complete Coverage Requirement
+
+**Every user-facing string must be extracted:**
+- Scan: .vue files (template + script sections)
+- Extract: Template text, button/label text, toasts, alerts, validation messages
+- Document: Count strings found and categorize by feature
+
 ## Identifying Vue I18n Projects
 
 **Package.json indicators:**
@@ -21,6 +102,66 @@ src/locales/{language}.yaml
 src/i18n/{language}.json
 src/translations/{language}.json
 ```
+
+## Comprehensive String Extraction for Vue
+
+### Step 1: Scan All Vue Files
+
+```bash
+# Find all Vue component files
+find src -type f -name "*.vue"
+
+# Count total files
+echo "Total Vue files: $(find src -type f -name "*.vue" | wc -l)"
+```
+
+### Step 2: Extract Template Strings
+
+```bash
+# Extract Vue template text content (between tags)
+grep -rh ">[^<{]*<" src/ --include="*.vue" | grep -v "^[[:space:]]*$" | sort -u | head -100
+
+# Extract button text
+grep -rh "<button[^>]*>[^<]*</button>" src/ --include="*.vue" | sed 's/<[^>]*>//g' | sort -u
+
+# Extract label text
+grep -rh "<label[^>]*>[^<]*</label>" src/ --include="*.vue" | sed 's/<[^>]*>//g' | sort -u
+
+# Extract input placeholders
+grep -rh 'placeholder="[^"]*"' src/ --include="*.vue" | sort -u
+
+# Find i18n calls (if already using i18n)
+grep -rh "\$t\|t(" src/ --include="*.vue"
+
+# Find strings in mustache syntax
+grep -rh "{{[^}]*}}" src/ --include="*.vue"
+```
+
+### Step 3: Organize by Feature
+
+Group extracted strings into categories:
+
+1. **common** - Shared UI (buttons, labels, status)
+2. **auth** - Authentication (login, signup, password)
+3. **dashboard** - Dashboard features
+4. **settings** - Settings pages
+5. **validation** - Form validation messages
+6. **notifications** - Toasts, alerts, confirmations
+
+### Step 4: Create Locale Files
+
+Create translation files for each locale.
+
+### Step 5: Automatic Component Integration
+
+**AI automatically modifies ALL Vue components:**
+- Import `useI18n` composable in script setup or options API
+- Replace hardcoded template text with `{{ $t('key') }}` or `{{ t('key') }}`
+- Preserve all interpolation variables and props
+- Handle toast/alert messages with translation functions
+- Ensure proper locale and formatting
+
+**No migration guide needed** - AI performs all component modifications directly.
 
 ## File Structure
 
