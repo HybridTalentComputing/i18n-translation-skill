@@ -456,20 +456,127 @@ diff <(jq -r 'keys[]' locales/en/common.json | sort) \
 
 **Available scripts:**
 
-### extract-strings.py
-**Purpose:** Extract hardcoded strings from source code
+### find-i18n-files.py (File Detection - Detailed)
+**Purpose:** Comprehensive file detection with metadata and statistics
 
 **Use WHEN:**
-- Phase 1: String extraction
-- Need to scan large codebases systematically
-- Starting i18n from scratch
+- Need detailed analysis (file sizes, string counts, indicators)
+- Want to estimate work with statistics
+- Human review of internationalization scope
+- Project planning and reporting
+
+**Benefits:**
+- ✅ Complete metadata for each file
+- ✅ Statistical analysis (total strings, averages)
+- ✅ Detailed indicators (buttons, labels, placeholders, etc.)
+- ✅ Comprehensive reporting
+
+**Usage:**
+```bash
+python scripts/find-i18n-files.py src --format json --output i18n_files.json
+```
+
+**Output:** Detailed JSON with metadata, statistics, and file indicators
+
+### find-i18n-files-simple.py (File Detection - Minimal) ⭐ RECOMMENDED
+**Purpose:** Quick file list generation for Claude (minimal context usage)
+
+**Use WHEN:**
+- **DEFAULT choice for Claude workflows**
+- Want to minimize context usage
+- Only need file paths (no metadata)
+- Direct processing without analysis
+
+**Benefits:**
+- ✅ **87-89% smaller output** (saves massive context!)
+- ✅ Simple file list (one path per line)
+- ✅ Auto-filters test files
+- ✅ Same speed as detailed version
+- ✅ **Ideal for Claude processing**
+
+**Usage:**
+```bash
+# TXT format (smallest - 28KB for 445 files)
+python scripts/find-i18n-files-simple.py src --output files.txt
+
+# JSON format (structured - 33KB for 445 files)
+python scripts/find-i18n-files-simple.py src --format json --output files.json
+
+# Output example:
+# [OK] Found 445 files needing i18n (in 5.46s)
+# [OK] Saved to: files.txt
+```
+
+**Output:** Simple file list (TXT: 28KB, JSON: 33KB vs 254KB for detailed version)
+
+**Context Savings:**
+- Detailed version: ~65,000 tokens (32.5% of 200K context)
+- Simple version: ~8,500 tokens (4.25% of 200K context)
+- **Saves 56,500 tokens (28% of context!)**
+
+**Recommendation:** **Use simple version by default** for Claude to save context
+
+### extract-strings.py (Sequential Baseline)
+**Purpose:** Extract hardcoded strings from source code (baseline version)
+
+**Use WHEN:**
+- Small projects (< 50 files)
+- Debugging extraction logic
+- Simple workflow needed
+
+**Performance:** Sequential processing, no caching
 
 **Usage:**
 ```bash
 python scripts/extract-strings.py src --format json --output extracted_strings.json
 ```
 
-**Output:** Categorized strings with counts
+### extract-strings-fast.py (3-5x Faster) ⚡
+**Purpose:** Fast parallel string extraction for large projects
+
+**Use WHEN:**
+- Large codebase (100+ files)
+- Multi-core machine available
+- One-time full extraction
+- Initial project setup
+
+**Performance:** 3-5x faster using parallel processing
+
+**Usage:**
+```bash
+# Auto-detect CPU cores
+python scripts/extract-strings-fast.py src --format json --output extracted_strings.json
+
+# Custom worker count
+python scripts/extract-strings-fast.py src --workers 8
+```
+
+### extract-strings-incremental.py (10-100x Faster on Re-runs) 🚀
+**Purpose:** Incremental extraction with smart caching
+
+**Use WHEN:**
+- Development workflow (frequent re-scans)
+- Large codebase with incremental changes
+- Want fastest re-scans during development
+- Cache storage acceptable
+
+**Performance:** 10-100x faster on subsequent runs (only scans changed files)
+
+**Usage:**
+```bash
+# First run - full scan with caching
+python scripts/extract-strings-incremental.py src --format json --output extracted_strings.json
+
+# Subsequent runs - only scans changed files (instant!)
+python scripts/extract-strings-incremental.py src --format json --output extracted_strings.json
+
+# Force full re-scan
+python scripts/extract-strings-incremental.py src --force
+```
+
+**Cache:** Stored in `.i18n-cache/extraction_cache.json`
+
+**Recommendation:** Use incremental version for daily development
 
 ### split-i18n.py
 **Purpose:** Split large i18n files by feature/prefix
