@@ -1,9 +1,9 @@
 ---
-name: i18n-complete
+name: i18n-translation
 description: Complete internationalization implementation for web applications. Provides systematic AI-driven workflow to achieve 100% i18n coverage with zero hardcoded strings. Use for adding i18n to new projects, migrating hardcoded strings to i18n, adding new language support, or auditing i18n coverage. Includes extraction patterns, component migration strategies, namespace organization, and validation checklists. Works with React, Vue, Angular, and similar frameworks. No scripts required - all work done by AI following structured methodology.
 ---
 
-# i18n-Complete: Full Internationalization Implementation
+# i18n-translation: Full Internationalization Implementation
 
 Implement complete internationalization (i18n) for web applications with 100% coverage. This skill provides a systematic, AI-driven workflow to eliminate all hardcoded strings and establish a scalable translation system.
 
