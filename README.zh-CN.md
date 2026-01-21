@@ -49,13 +49,32 @@
 - [Agent Skills 概述](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) - Anthropic 官方文档
 - [官方 Skills 仓库](https://github.com/anthropics/skills) - 参考实现
 - [Skills 详解](https://claude.com/blog/skills-explained) - Skills 与 Prompts、Projects、MCP 和 Subagents 的比较
+- [在线查看本集合](https://skills.sh/HybridTalentComputing/ai-coding-skills) - 技能在线查看器
 
 ### 安装
 
-每个技能都可以独立使用：
-1. 导航到技能目录（如 `skills/i18n-translation/`）
-2. 确保技能配置了正确的元数据
-3. Claude 会在相关时自动检测并加载该技能
+#### 通过 npm 快速安装（推荐）
+
+```bash
+# 安装本集合中的所有技能
+npx skills install HybridTalentComputing/ai-coding-skills
+
+# 或单独安装某个技能
+npx skills install HybridTalentComputing/ai-coding-skills#i18n-translation
+npx skills install HybridTalentComputing/ai-coding-skills#deepwiki-skill
+```
+
+### 支持的 IDE
+
+这些技能兼容以下开发环境：
+
+- **Claude Code** - 完整支持
+- **Codex** - 完整支持
+- **Cursor** - 完整支持
+- **OpenCode** - 完整支持
+- **Trae** - 完整支持
+
+安装后，技能会在相关上下文中自动加载。
 
 ## 仓库结构
 
@@ -119,20 +138,6 @@ ai-coding-skill/
 **深度代码分析：**
 - "研究并记录项目中的数据流模式"
 - "为部署过程创建全面的故障排除指南"
-
-## 快速开始
-
-### 官方文档
-- [Agent Skills 概述](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) - Anthropic 官方文档
-- [官方 Skills 仓库](https://github.com/anthropics/skills) - 参考实现
-- [Skills 详解](https://claude.com/blog/skills-explained) - Skills 与 Prompts、Projects、MCP 和 Subagents 的比较
-
-### 安装
-
-每个技能都可以独立使用：
-1. 导航到技能目录（如 `skills/i18n-translation/`）
-2. 确保技能配置了正确的元数据
-3. Claude 会在相关时自动检测并加载该技能
 
 ## 贡献
 

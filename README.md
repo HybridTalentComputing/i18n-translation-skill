@@ -49,13 +49,32 @@ This repository also includes a comprehensive **Agent Skills Best Practices** gu
 - [Agent Skills Overview](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) - Official Anthropic documentation
 - [Official Skills Repository](https://github.com/anthropics/skills) - Reference implementations
 - [Skills Explained](https://claude.com/blog/skills-explained) - How Skills compare to Prompts, Projects, MCP, and Subagents
+- [View This Collection](https://skills.sh/HybridTalentComputing/ai-coding-skills) - Online skill viewer
 
 ### Installation
 
-Each skill can be used independently:
-1. Navigate to the skill directory (e.g., `skills/i18n-translation/`)
-2. Ensure the skill is properly configured with metadata
-3. Claude will automatically detect and load the skill when relevant
+#### Quick Install via npm (Recommended)
+
+```bash
+# Install all skills in this collection
+npx skills install HybridTalentComputing/ai-coding-skills
+
+# Or install individual skills
+npx skills install HybridTalentComputing/ai-coding-skills#i18n-translation
+npx skills install HybridTalentComputing/ai-coding-skills#deepwiki-skill
+```
+
+### Supported IDEs
+
+These skills are compatible with:
+
+- **Claude Code** - Full support
+- **Codex** - Full support
+- **Cursor** - Full support
+- **OpenCode** - Full support
+- **Trae** - Full support
+
+Once installed, skills are automatically loaded when relevant to your work context.
 
 ## Repository Structure
 
@@ -119,20 +138,6 @@ ai-coding-skill/
 **Deep Code Analysis:**
 - "Research and document the data flow patterns in this project"
 - "Create a comprehensive troubleshooting guide for the deployment process"
-
-## Getting Started
-
-### Official Documentation
-- [Agent Skills Overview](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) - Official Anthropic documentation
-- [Official Skills Repository](https://github.com/anthropics/skills) - Reference implementations
-- [Skills Explained](https://claude.com/blog/skills-explained) - How Skills compare to Prompts, Projects, MCP, and Subagents
-
-### Installation
-
-Each skill can be used independently:
-1. Navigate to the skill directory (e.g., `skills/i18n-translation/`)
-2. Ensure the skill is properly configured with metadata
-3. Claude will automatically detect and load the skill when relevant
 
 ## Contributing
 
