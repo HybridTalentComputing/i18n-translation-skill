@@ -1,22 +1,47 @@
-# i18n-translation-skill
+# AI 编程技能集合
 
-用于处理国际化（i18n）和翻译任务的 Agent Skill。
+一个精选的 Agent Skills 集合，用于扩展 Claude 在 AI 辅助软件开发方面的能力。
 
 **[English](./README.md)** | **[中文](./README.zh-CN.md)**
 
 ## 概述
 
-这是一个扩展 Claude 国际化和翻译工作流能力的 Agent Skill。它提供了专业的工具和指令，用于高效管理多语言内容、本地化文件和翻译流程。
+此仓库包含多个 Agent Skills，用于扩展 Claude 在特定开发任务中的能力。每个技能都为特定领域提供结构化的工作流程、最佳实践和工具。
 
-## 什么是 i18n-translation-skill？
+## 包含的技能
 
-i18n-translation-skill 通过程序性知识教授 Claude **如何处理**国际化和翻译任务。与通用提示不同，这个 Skill：
+### 1. i18n-translation
+国际化和翻译工作流自动化。
+- 从源代码中提取可翻译字符串
+- 生成和管理翻译文件（JSON、YAML 等）
+- 同步多种语言间的翻译键
+- 检测缺失或过时的翻译
+- 验证翻译文件语法
 
-- 提供结构化的 i18n 文件管理工作流
-- 支持多种翻译文件格式（JSON、YAML 等）
-- 确保翻译的一致性
-- 处理键值匹配和缺失翻译
-- 与现有翻译工作流集成
+**位置**: `skills/i18n-translation/`
+
+### 2. deepwiki
+自动化文档生成和代码库分析。
+- 从代码生成全面的文档
+- 创建 API 文档、架构文档和指南
+- 分析代码模式和最佳实践
+- 为各种项目类型生成结构化报告
+- 深度代码库研究和分析
+
+**位置**: `skills/deepwiki/`
+
+## 最佳实践指南
+
+此仓库还包含基于 Anthropic 官方文档的综合 **Agent Skills 最佳实践**指南：
+
+- 渐进式披露设计模式
+- 编写有效的技能描述
+- 选择正确的内容类型（指令、脚本、资源）
+- 安全最佳实践
+- 平台约束和可移植性
+- 技能生命周期管理
+
+**位置**: `BEST_PRACTICES.md` | [English](./BEST_PRACTICES.md)
 
 ## 快速开始
 
@@ -27,43 +52,48 @@ i18n-translation-skill 通过程序性知识教授 Claude **如何处理**国际
 
 ### 安装
 
-1. 将此仓库克隆到本地技能目录
+每个技能都可以独立使用：
+1. 导航到技能目录（如 `skills/i18n-translation/`）
 2. 确保技能配置了正确的元数据
-3. Claude 会在需要时自动检测并加载该技能
-
-## 功能特性
-
-### 翻译文件格式
-- **JSON**: Web 应用最常用的格式
-- **YAML**: 人类可读的配置格式
-- **Properties**: Java 风格的属性文件
-- **自定义格式**: 可扩展以支持项目特定需求
-
-### 核心能力
-- 从源代码中提取可翻译字符串
-- 为多种语言生成翻译文件
-- 同步不同语言文件间的翻译键
-- 检测缺失或过时的翻译
-- 合并来自不同来源的翻译
-- 验证翻译文件语法
-
-### 何时使用此技能
-
-> 当你需要在项目中添加、更新或管理国际化内容，或处理多种语言的翻译文件时。
+3. Claude 会在相关时自动检测并加载该技能
 
 ## 仓库结构
 
 ```
-i18n-translation-skill/
-├── README.md              # 英文版说明
-├── README.zh-CN.md        # 中文版说明（本文件）
-├── CLAUDE.md              # Claude Code 工作指南
-└── LICENSE                # Apache License 2.0
+ai-coding-skill/
+├── README.md                    # 英文版说明
+├── README.zh-CN.md              # 中文版说明（本文件）
+├── CLAUDE.md                    # Claude Code 工作指南
+├── BEST_PRACTICES.md            # Agent Skills 最佳实践指南（英文）
+├── BEST_PRACTICES_CN.md         # Agent Skills 最佳实践指南（中文）
+├── LICENSE                      # Apache License 2.0
+└── skills/                      # 技能目录
+    ├── i18n-translation/        # 国际化技能
+    │   ├── SKILL.md            # 主要技能指令
+    │   └── references/         # 参考材料
+    │       ├── workflow.md
+    │       ├── patterns.md
+    │       ├── namespaces.md
+    │       ├── modular-files.md
+    │       └── checklist.md
+    └── deepwiki/                # 文档生成技能
+        ├── SKILL.md            # 主要技能指令
+        ├── README.md           # 技能文档
+        ├── assets/             # 模板和资源
+        │   ├── document_templates/
+        │   └── report_templates/
+        └── references/         # 参考材料
+            ├── deep_research_prompts.md
+            ├── documentation_standards.md
+            ├── code_patterns.md
+            └── analysis_framework.md
 ```
 
 ## 使用示例
 
-### 示例 1：创建翻译文件
+### i18n-translation 技能
+
+**创建翻译文件：**
 
 ```json
 // en.json
@@ -79,38 +109,45 @@ i18n-translation-skill/
 }
 ```
 
-### 示例 2：提取字符串
+### deepwiki 技能
 
-给定源代码时，该技能可以识别可翻译字符串并创建相应的 i18n 条目。
+**生成文档：**
+- "为认证服务创建 API 文档"
+- "分析代码库并生成架构文档"
+- "记录支付模块的组件结构"
 
-### 示例 3：同步键值
+**深度代码分析：**
+- "研究并记录项目中的数据流模式"
+- "为部署过程创建全面的故障排除指南"
 
-该技能可以确保所有语言文件具有匹配的键，并识别缺失的翻译。
+## 快速开始
 
-## 最佳实践
+### 官方文档
+- [Agent Skills 概述](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) - Anthropic 官方文档
+- [官方 Skills 仓库](https://github.com/anthropics/skills) - 参考实现
+- [Skills 详解](https://claude.com/blog/skills-explained) - Skills 与 Prompts、Projects、MCP 和 Subagents 的比较
 
-1. **保持键值一致**：在所有语言文件中使用相同的键
-2. **使用有意义的名称**：选择能反映内容上下文的描述性键
-3. **按功能组织**：按应用功能/模块分组翻译
-4. **处理复数**：为每种语言使用适当的复数规则
-5. **使用真实内容测试**：在实际 UI 上下文中验证翻译
+### 安装
+
+每个技能都可以独立使用：
+1. 导航到技能目录（如 `skills/i18n-translation/`）
+2. 确保技能配置了正确的元数据
+3. Claude 会在相关时自动检测并加载该技能
 
 ## 贡献
 
 欢迎贡献！可以改进的领域：
 
-- 添加对更多翻译文件格式的支持
-- 提高对不同编程语言的提取准确性
-- 添加更复杂的复数处理
-- 增强验证和错误报告
-- 支持翻译记忆系统
-- 与翻译 API 集成
+- **新技能**：为其他开发工作流添加专业技能
+- **增强示例**：改进现有技能的示例和模板
+- **文档**：增强最佳实践和指南
+- **测试**：添加验证脚本和测试用例
 
 贡献时请：
 
 1. 遵循现有代码风格和模式
-2. 为新功能添加测试
-3. 根据需要更新文档
+2. 为新技能添加全面的文档
+3. 根据需要更新 README 文件
 4. 确保跨平台兼容性
 
 ## 许可证

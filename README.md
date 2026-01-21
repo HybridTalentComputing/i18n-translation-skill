@@ -1,22 +1,47 @@
-# i18n-translation-skill
+# AI Coding Skills Collection
 
-An Agent Skill for internationalization (i18n) and translation tasks.
+A curated collection of Agent Skills for extending Claude's capabilities in AI-assisted software development.
 
 **[English](./README.md)** | **[中文](./README.zh-CN.md)**
 
 ## Overview
 
-This is an Agent Skill that extends Claude's capabilities for handling internationalization and translation workflows. It provides specialized tools and instructions for efficiently managing multi-language content, localization files, and translation processes.
+This repository contains multiple Agent Skills that extend Claude's capabilities for specialized development tasks. Each skill provides structured workflows, best practices, and tools for specific domains.
 
-## What is i18n-translation-skill?
+## Included Skills
 
-The i18n-translation-skill teaches Claude **how to handle** internationalization and translation tasks through procedural knowledge. Unlike generic prompts, this Skill:
+### 1. i18n-translation
+Internationalization and translation workflow automation.
+- Extract translatable strings from source code
+- Generate and manage translation files (JSON, YAML, etc.)
+- Synchronize translation keys across multiple languages
+- Detect missing or outdated translations
+- Validate translation file syntax
 
-- Provides structured workflows for i18n file management
-- Supports multiple translation file formats (JSON, YAML, etc.)
-- Ensures consistency across translations
-- Handles key matching and missing translations
-- Integrates with existing translation workflows
+**Location**: `skills/i18n-translation/`
+
+### 2. deepwiki
+Automated documentation generation and codebase analysis.
+- Generate comprehensive documentation from code
+- Create API documentation, architecture docs, and guides
+- Analyze code patterns and best practices
+- Produce structured reports for various project types
+- Deep codebase research and analysis
+
+**Location**: `skills/deepwiki/`
+
+## Best Practices Guide
+
+This repository also includes a comprehensive **Agent Skills Best Practices** guide based on Anthropic's official documentation:
+
+- Progressive disclosure design patterns
+- Writing effective skill descriptions
+- Choosing the right content types (instructions, scripts, resources)
+- Security best practices
+- Platform constraints and portability
+- Skill lifecycle management
+
+**Location**: `BEST_PRACTICES.md` | [中文版](./BEST_PRACTICES_CN.md)
 
 ## Getting Started
 
@@ -27,43 +52,48 @@ The i18n-translation-skill teaches Claude **how to handle** internationalization
 
 ### Installation
 
-1. Clone this repository to your local skills directory
+Each skill can be used independently:
+1. Navigate to the skill directory (e.g., `skills/i18n-translation/`)
 2. Ensure the skill is properly configured with metadata
-3. Claude will automatically detect and load the skill when needed
-
-## Features
-
-### Translation File Formats
-- **JSON**: Most common format for web applications
-- **YAML**: Human-readable configuration format
-- **Properties**: Java-style property files
-- **Custom formats**: Extensible for project-specific needs
-
-### Core Capabilities
-- Extract translatable strings from source code
-- Generate translation files for multiple languages
-- Synchronize translation keys across language files
-- Detect missing or outdated translations
-- Merge translations from different sources
-- Validate translation file syntax
-
-### When to Use This Skill
-
-> When you need to add, update, or manage internationalization content in your project, or work with translation files across multiple languages.
+3. Claude will automatically detect and load the skill when relevant
 
 ## Repository Structure
 
 ```
-i18n-translation-skill/
-├── README.md              # This file
-├── README.zh-CN.md        # Chinese version
-├── CLAUDE.md              # Guidance for Claude Code
-├── LICENSE                # Apache License 2.0
+ai-coding-skill/
+├── README.md                    # This file
+├── README.zh-CN.md              # Chinese version
+├── CLAUDE.md                    # Guidance for Claude Code
+├── BEST_PRACTICES.md            # Agent Skills best practices guide
+├── BEST_PRACTICES_CN.md         # Best practices (Chinese)
+├── LICENSE                      # Apache License 2.0
+└── skills/                      # Skills directory
+    ├── i18n-translation/        # Internationalization skill
+    │   ├── SKILL.md            # Main skill instructions
+    │   └── references/         # Reference materials
+    │       ├── workflow.md
+    │       ├── patterns.md
+    │       ├── namespaces.md
+    │       ├── modular-files.md
+    │       └── checklist.md
+    └── deepwiki/                # Documentation generation skill
+        ├── SKILL.md            # Main skill instructions
+        ├── README.md           # Skill documentation
+        ├── assets/             # Templates and resources
+        │   ├── document_templates/
+        │   └── report_templates/
+        └── references/         # Reference materials
+            ├── deep_research_prompts.md
+            ├── documentation_standards.md
+            ├── code_patterns.md
+            └── analysis_framework.md
 ```
 
 ## Usage Examples
 
-### Example 1: Creating Translation Files
+### i18n-translation Skill
+
+**Creating Translation Files:**
 
 ```json
 // en.json
@@ -79,38 +109,45 @@ i18n-translation-skill/
 }
 ```
 
-### Example 2: Extracting Strings
+### deepwiki Skill
 
-When given source code, the skill can identify translatable strings and create appropriate i18n entries.
+**Generate Documentation:**
+- "Create API documentation for the authentication service"
+- "Analyze the codebase and generate architecture documentation"
+- "Document the component structure of the payment module"
 
-### Example 3: Synchronizing Keys
+**Deep Code Analysis:**
+- "Research and document the data flow patterns in this project"
+- "Create a comprehensive troubleshooting guide for the deployment process"
 
-The skill can ensure all language files have matching keys and identify missing translations.
+## Getting Started
 
-## Best Practices
+### Official Documentation
+- [Agent Skills Overview](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview) - Official Anthropic documentation
+- [Official Skills Repository](https://github.com/anthropics/skills) - Reference implementations
+- [Skills Explained](https://claude.com/blog/skills-explained) - How Skills compare to Prompts, Projects, MCP, and Subagents
 
-1. **Keep keys consistent**: Use the same key across all language files
-2. **Use meaningful names**: Choose descriptive keys that reflect content context
-3. **Organize by feature**: Group translations by application features/modules
-4. **Handle plurals**: Use appropriate pluralization rules for each language
-5. **Test with real content**: Verify translations work in actual UI context
+### Installation
+
+Each skill can be used independently:
+1. Navigate to the skill directory (e.g., `skills/i18n-translation/`)
+2. Ensure the skill is properly configured with metadata
+3. Claude will automatically detect and load the skill when relevant
 
 ## Contributing
 
 Contributions are welcome! Areas for improvement:
 
-- Add support for additional translation file formats
-- Improve extraction accuracy for different programming languages
-- Add more sophisticated pluralization handling
-- Enhance validation and error reporting
-- Support for translation memory systems
-- Integration with translation APIs
+- **New Skills**: Add specialized skills for other development workflows
+- **Enhanced Examples**: Improve existing skill examples and templates
+- **Documentation**: Enhance best practices and guides
+- **Testing**: Add validation scripts and test cases
 
 When contributing:
 
 1. Follow existing code style and patterns
-2. Add tests for new functionality
-3. Update documentation as needed
+2. Add comprehensive documentation for new skills
+3. Update README files as needed
 4. Ensure cross-platform compatibility
 
 ## License
